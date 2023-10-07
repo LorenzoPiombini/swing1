@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -14,6 +15,9 @@ public class ToolBar extends JPanel implements ActionListener {
     private StringListener textListener;
 
     public ToolBar() {
+
+        setBorder(BorderFactory.createEtchedBorder());
+
         helloBtn = new JButton("Hello");
         goodByeBtn = new JButton("Goodbye");
 

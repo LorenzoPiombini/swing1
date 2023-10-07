@@ -8,6 +8,7 @@ public class MainFrame extends JFrame {
 
     private TextPannel textPannel;
     private ToolBar toolBar;
+    private FormPannel formPannel;
 
     public MainFrame() {
 
@@ -17,6 +18,7 @@ public class MainFrame extends JFrame {
 
         toolBar = new ToolBar();
         textPannel = new TextPannel();
+        formPannel = new FormPannel();
 
         toolBar.setStringListener(new StringListener() {
 
@@ -27,8 +29,18 @@ public class MainFrame extends JFrame {
 
         });
 
+        formPannel.setFormlistener(new FormListner() {
+            public void formEventOccured(FormEvent e) {
+                String name = e.getName();
+                String occupation = e.getOccupation();
+
+                textPannel.appendText(name + " : " + occupation + "\n");
+            }
+        });
+
         add(toolBar, BorderLayout.NORTH);
         add(textPannel, BorderLayout.CENTER);
+        add(formPannel, BorderLayout.WEST);
 
         setSize(500, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
