@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,13 +28,16 @@ public class FormPannel extends JPanel {
     private JTextField occupationField;
     private JButton okBtn;
     private FormListner formListner;
-    private JComboBox empCombo;
+    private JComboBox<String> empCombo;
+    private JCheckBox citizenCheck;
+    private JTextField taxField;
+    private JLabel taxLbl;
 
     private JList<String> ageList;
 
     public FormPannel() {
         Dimension dim = getPreferredSize();
-        dim.width = 250;
+        dim.width = 350;
         setPreferredSize(dim);
 
         nameLabel = new JLabel("Name: ");
@@ -43,16 +47,30 @@ public class FormPannel extends JPanel {
         okBtn = new JButton("OK");
         ageList = new JList<>();
         empCombo = new JComboBox<>();
+        citizenCheck = new JCheckBox();
+        taxField = new JTextField(10);
+        taxLbl = new JLabel("Tax ID: ");
+
+        // setup tax id
+        taxField.setEnabled(false);
+        taxLbl.setEnabled(false);
+
+        citizenCheck.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isticked = citizenCheck.isSelected();
+                taxLbl.setEnabled(isticked);
+                taxField.setEnabled(isticked);
+            }
+
+        });
 
         // set uo combo box
-        DefaultComboBoxModel empModel = new DefaultComboBoxModel<>();
-        empModel.addElement("employed");
-        empModel.addElement("selfEmploye");
-        empModel.addElement("unemployed");
-        empCombo.setModel(empModel);
+        empCombo.setModel(new DefaultComboBoxModel<String>(new String[] { "employed", "selfEmploye", "unemployed" }));
 
         // set up list box
-        DefaultListModel ageModel = new DefaultListModel<>();
+        DefaultListModel<String> ageModel = new DefaultListModel<>();
         ageModel.addElement("Under 18");
         ageModel.addElement("18 to 65");
         ageModel.addElement("65 or over");
@@ -70,10 +88,12 @@ public class FormPannel extends JPanel {
                 String occupationName = occupationField.getText();
                 AgeCategory ageCategory = new AgeCategory(ageList.getSelectedIndex(), ageList.getSelectedValue());
                 String empCat = (String) empCombo.getSelectedItem();
+                String taxId = taxField.getText();
+                boolean usCitizen = citizenCheck.isSelected();
 
                 System.out.println(empCat);
 
-                FormEvent ev = new FormEvent(this, name, occupationName, ageCategory.getId(), empCat);
+                FormEvent ev = new FormEvent(this, name, occupationName, ageCategory.getId(), empCat, usCitizen, taxId);
 
                 if (formListner != null) {
                     formListner.formEventOccured(ev);
@@ -157,9 +177,39 @@ public class FormPannel extends JPanel {
 
         // next row/////
         gc.weightx = 1;
-        gc.weighty = 2;
+        gc.weighty = 0.2;
+
+        gc.gridx = 0;
+        gc.gridy = 4;
+        gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(new JLabel("Citizen: "), gc);
+
         gc.gridx = 1;
         gc.gridy = 4;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(citizenCheck, gc);
+
+        // next row/////
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 0;
+        gc.gridy = 5;
+        gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(taxLbl, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 5;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(taxField, gc);
+
+        // next row/////
+        gc.weightx = 1;
+        gc.weighty = 2;
+        gc.gridx = 1;
+        gc.gridy = 6;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         add(okBtn, gc);
 

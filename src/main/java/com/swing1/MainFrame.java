@@ -35,9 +35,11 @@ public class MainFrame extends JFrame {
                 String occupation = e.getOccupation();
                 int ageCat = e.getAgeCategory();
                 String empCat = e.getEmpCat();
+                String taxId = e.getTaxId();
 
                 textPannel.appendText(
-                        name + " : " + occupation + ": age: " + ageCat + "Employment category: " + empCat + "\n");
+                        name + " : " + occupation + ": age: " + ageCat + "Employment category: " + empCat + " Tax Id: "
+                                + taxId + "\n");
             }
         });
 

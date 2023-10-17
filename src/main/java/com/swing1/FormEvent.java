@@ -8,25 +8,18 @@ public class FormEvent extends EventObject {
     private String occupation;
     private int ageCategory;
     private String empCat;
+    private String taxId;
+    private boolean usCitizen;
 
-    public void setAgeCategory(int ageCategory) {
-        this.ageCategory = ageCategory;
-    }
-
-    public String getEmpCat() {
-        return this.empCat;
-    }
-
-    public void setEmpCat(String empCat) {
-        this.empCat = empCat;
-    }
-
-    public FormEvent(Object source, String name, String occupation, int ageCategory, String empCat) {
+    public FormEvent(Object source, String name, String occupation, int ageCategory, String empCat, boolean usCitizen,
+            String taxId) {
         super(source);
         this.name = name;
         this.occupation = occupation;
         this.ageCategory = ageCategory;
         this.empCat = empCat;
+        this.usCitizen = usCitizen;
+        this.taxId = taxId;
 
     }
 
@@ -48,6 +41,38 @@ public class FormEvent extends EventObject {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public String getTaxId() {
+        return this.taxId;
+    }
+
+    public void setTaxId(String taxId) {
+        this.taxId = taxId;
+    }
+
+    public boolean isUsCitizen() {
+        return this.usCitizen;
+    }
+
+    public boolean getUsCitizen() {
+        return this.usCitizen;
+    }
+
+    public void setUsCitizen(boolean usCitizen) {
+        this.usCitizen = usCitizen;
+    }
+
+    public void setAgeCategory(int ageCategory) {
+        this.ageCategory = ageCategory;
+    }
+
+    public String getEmpCat() {
+        return this.empCat;
+    }
+
+    public void setEmpCat(String empCat) {
+        this.empCat = empCat;
     }
 
 }
