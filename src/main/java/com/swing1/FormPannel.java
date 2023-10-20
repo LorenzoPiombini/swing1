@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -32,6 +34,9 @@ public class FormPannel extends JPanel {
     private JCheckBox citizenCheck;
     private JTextField taxField;
     private JLabel taxLbl;
+    private JRadioButton maleRadio;
+    private JRadioButton femaleRadio;
+    private ButtonGroup genderGroup;
 
     private JList<String> ageList;
 
@@ -50,6 +55,16 @@ public class FormPannel extends JPanel {
         citizenCheck = new JCheckBox();
         taxField = new JTextField(10);
         taxLbl = new JLabel("Tax ID: ");
+
+        maleRadio = new JRadioButton("Male");
+        femaleRadio = new JRadioButton("Female");
+
+        maleRadio.setActionCommand("male");
+        femaleRadio.setActionCommand("female");
+
+        genderGroup = new ButtonGroup();
+        genderGroup.add(maleRadio);
+        genderGroup.add(femaleRadio);
 
         // setup tax id
         taxField.setEnabled(false);
@@ -91,9 +106,12 @@ public class FormPannel extends JPanel {
                 String taxId = taxField.getText();
                 boolean usCitizen = citizenCheck.isSelected();
 
+                String genderCommand = genderGroup.getSelection().getActionCommand();
+
                 System.out.println(empCat);
 
-                FormEvent ev = new FormEvent(this, name, occupationName, ageCategory.getId(), empCat, usCitizen, taxId);
+                FormEvent ev = new FormEvent(this, name, occupationName, ageCategory.getId(), empCat, usCitizen, taxId,
+                        genderCommand);
 
                 if (formListner != null) {
                     formListner.formEventOccured(ev);
@@ -207,9 +225,29 @@ public class FormPannel extends JPanel {
 
         // next row/////
         gc.weightx = 1;
-        gc.weighty = 2;
+        gc.weighty = 0.05;
+
+        gc.gridx = 0;
+        gc.gridy = 6;
+        gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(new JLabel("gender: "), gc);
+
         gc.gridx = 1;
         gc.gridy = 6;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(maleRadio, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 7;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(femaleRadio, gc);
+
+        // next row/////
+        gc.weightx = 1;
+        gc.weighty = 2;
+        gc.gridx = 1;
+        gc.gridy = 8;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         add(okBtn, gc);
 
